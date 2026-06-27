@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WildMLP</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
 
@@ -30,12 +36,13 @@ overflow:hidden;
 
 .star{
 position:absolute;
-width:3px;
-height:3px;
+width:8px;
+height:8px;
 background:white;
 border-radius:50%;
 opacity:.4;
 animation:floatStar 25s linear infinite;
+box-shadow:0 0 12px rgba(255,255,255,.8);
 }
 
 .star:nth-child(1){
@@ -233,21 +240,43 @@ color:#ffd3f3;
 }
 
 @media(max-width:700px){
-
+.container{
+padding:30px 15px;
+}
 .links{
 grid-template-columns:1fr;
+gap:12px;
 }
-
+.button{
+padding:16px;
+font-size:16px;
+}
 .title{
-font-size:42px;
+font-size:38px;
+line-height:1.1;
 }
-
+.subtitle{
+font-size:17px;
+}
 .server-title{
-font-size:28px;
+font-size:26px;
+line-height:1.2;
 }
-
+.server-card{
+padding:20px;
+margin-top:40px;
+}
+.server-card p{
+font-size:15px;
+line-height:1.7;
+}
+.footer{
+font-size:18px;
+}
 }
 </style>
+</head>
+<body>
 
 <div class="stars">
 <div class="star"></div>
@@ -285,32 +314,32 @@ href="https://t.me/tribute/app?startapp=dK6K">
 
 <a class="button"
 href="https://t.me/WildMLP">
-Telegram
+🍺 Telegram
 </a>
 
 <a class="button"
 href="https://discord.gg/yj39bvxWJD">
-Discord
+🎮 Discord
 </a>
 
 <a class="button"
 href="https://www.tiktok.com/@wildmlp4913">
-TikTok
+🥞 TikTok
 </a>
 
 <a class="button"
 href="https://vk.com/wildmlp">
-ВК
+🥶 ВК
 </a>
 
 <a class="button"
 href="https://steamcommunity.com/groups/WildMLP">
-Steam
+✨ Steam
 </a>
 
 <a class="button"
 href="https://www.twitch.tv/wildmlp">
-Twitch
+🎭 Twitch
 </a>
 
 </div>
@@ -333,17 +362,17 @@ Twitch
 
 <a class="button"
 href="https://t.me/tribute/app?startapp=pxsR">
-Проходка за 300 рублей
+💎 Проходка 6 месяцев за 300 рублей
 </a>
 
 <a class="button"
 href="https://t.me/tribute/app?startapp=pxsT">
-Проходка за 100 рублей
+⭐ Проходка на месяц за 100 рублей
 </a>
 
 <a class="button"
 href="https://t.me/tribute/app?startapp=pxt7">
-Префикс на 6 месяцев — 200 рублей
+👑 Префикс на 6 месяцев — 200 рублей
 </a>
 
 </div>
@@ -355,3 +384,5 @@ href="https://t.me/tribute/app?startapp=pxt7">
 </div>
 
 </div>
+</body>
+</html>
