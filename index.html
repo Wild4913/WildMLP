@@ -3,163 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Little Wild — анонимные сообщения</title>
+<title>Wild MLP</title>
 <style>
-:root{--bg:#030006;--panel:rgba(16,6,28,.74);--purple:#4a2380;--purple2:#6b3bb0;--text:#e9e2f2;--muted:#9a8bb0;--line:rgba(255,255,255,.09)}
+:root{--bg:#080010;--panel:rgba(42,10,72,.68);--pink:#ff10b7;--purple:#8d3cff;--cyan:#49e7ff;--text:#fff7ff;--muted:#dfb9ef;--line:rgba(255,255,255,.16)}
 *{box-sizing:border-box}
-html{-webkit-tap-highlight-color:transparent}
-body{margin:0;color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh;background:radial-gradient(circle at 15% 10%,rgba(74,35,128,.30),transparent 30%),radial-gradient(circle at 88% 18%,rgba(40,40,60,.28),transparent 26%),radial-gradient(circle at 50% 88%,rgba(52,18,96,.30),transparent 44%),linear-gradient(135deg,#020004,#0c0316 52%,#030006);background-attachment:fixed;overflow-x:hidden}
-body.lock{overflow:hidden}
-body.lock footer{display:none}
+body{margin:0;color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh;background:radial-gradient(circle at 15% 10%,rgba(255,16,183,.42),transparent 28%),radial-gradient(circle at 88% 18%,rgba(73,231,255,.2),transparent 24%),radial-gradient(circle at 50% 85%,rgba(141,60,255,.34),transparent 42%),linear-gradient(135deg,#07000d,#180029 52%,#080010);background-attachment:fixed;overflow-x:hidden}
 
-/* ===== Сетка звёзд ===== */
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:radial-gradient(#8a7aa8 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(#000,transparent 82%);-webkit-mask-image:linear-gradient(#000,transparent 82%);animation:gridTwinkle 8s ease-in-out infinite}
-@keyframes gridTwinkle{0%,100%{opacity:.22}50%{opacity:.12}}
+/* ===== Сетка звёзд + мягкое мерцание ===== */
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.45;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(#000,transparent 82%);-webkit-mask-image:linear-gradient(#000,transparent 82%);animation:gridTwinkle 7s ease-in-out infinite}
+@keyframes gridTwinkle{0%,100%{opacity:.45}50%{opacity:.28}}
 
-/* ===== Тёмный фон ===== */
+/* ===== Анимированный фон ===== */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.45;will-change:transform}
-.orb.o1{width:420px;height:420px;left:-120px;top:8%;background:rgba(80,30,140,.22);animation:drift1 36s ease-in-out infinite}
-.orb.o2{width:360px;height:360px;right:-100px;top:22%;background:rgba(60,60,90,.18);animation:drift2 42s ease-in-out infinite}
-.orb.o3{width:480px;height:480px;left:30%;bottom:-180px;background:rgba(60,20,110,.24);animation:drift3 48s ease-in-out infinite}
-.orb.o4{width:260px;height:260px;left:55%;top:-80px;background:rgba(70,30,120,.16);animation:drift2 40s ease-in-out infinite reverse}
-.orb.o5{width:300px;height:300px;left:8%;bottom:-100px;background:rgba(50,50,80,.14);animation:drift1 46s ease-in-out infinite reverse}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;will-change:transform}
+.orb.o1{width:420px;height:420px;left:-120px;top:8%;background:rgba(255,16,183,.30);animation:drift1 34s ease-in-out infinite}
+.orb.o2{width:360px;height:360px;right:-100px;top:22%;background:rgba(73,231,255,.16);animation:drift2 40s ease-in-out infinite}
+.orb.o3{width:480px;height:480px;left:30%;bottom:-180px;background:rgba(141,60,255,.28);animation:drift3 46s ease-in-out infinite}
+.orb.o4{width:260px;height:260px;left:55%;top:-80px;background:rgba(255,16,183,.18);animation:drift2 38s ease-in-out infinite reverse}
+.orb.o5{width:300px;height:300px;left:8%;bottom:-100px;background:rgba(73,231,255,.14);animation:drift1 44s ease-in-out infinite reverse}
 @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(120px,80px) scale(1.12)}66%{transform:translate(40px,200px) scale(.95)}}
 @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-140px,120px) scale(1.15)}}
 @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(-160px,-60px) scale(1.1)}75%{transform:translate(100px,-110px) scale(.92)}}
 
 .spark{position:absolute;bottom:-20px;border-radius:50%;opacity:0;animation:rise linear infinite;will-change:transform,opacity}
-@keyframes rise{0%{transform:translate3d(0,0,0) scale(.6);opacity:0}12%{opacity:.4}80%{opacity:.25}100%{transform:translate3d(var(--dx,30px),-110vh,0) scale(1.1);opacity:0}}
-.bubble{position:absolute;bottom:-60px;border-radius:50%;border:1px solid rgba(150,130,190,.14);background:radial-gradient(circle at 30% 30%,rgba(150,130,190,.07),transparent 60%);opacity:0;animation:bubble linear infinite;will-change:transform,opacity}
-@keyframes bubble{0%{transform:translate3d(0,0,0);opacity:0}15%{opacity:.4}85%{opacity:.25}100%{transform:translate3d(var(--dx,40px),-115vh,0);opacity:0}}
-.twinkle{position:absolute;width:9px;height:9px;opacity:0;animation:twinkle ease-in-out infinite}
-.twinkle:before,.twinkle:after{content:"";position:absolute;left:50%;top:50%;background:#9a8ab8;border-radius:2px;transform:translate(-50%,-50%)}
+@keyframes rise{0%{transform:translate3d(0,0,0) scale(.6);opacity:0}12%{opacity:.8}80%{opacity:.5}100%{transform:translate3d(var(--dx,30px),-110vh,0) scale(1.1);opacity:0}}
+
+/* медленные полупрозрачные пузырьки */
+.bubble{position:absolute;bottom:-60px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.14),transparent 60%);opacity:0;animation:bubble linear infinite;will-change:transform,opacity}
+@keyframes bubble{0%{transform:translate3d(0,0,0);opacity:0}15%{opacity:.55}85%{opacity:.35}100%{transform:translate3d(var(--dx,40px),-115vh,0);opacity:0}}
+
+.twinkle{position:absolute;width:10px;height:10px;opacity:0;animation:twinkle ease-in-out infinite}
+.twinkle:before,.twinkle:after{content:"";position:absolute;left:50%;top:50%;background:#fff;border-radius:2px;transform:translate(-50%,-50%)}
 .twinkle:before{width:2px;height:100%}
 .twinkle:after{width:100%;height:2px}
-@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5) rotate(0)}50%{opacity:.45;transform:scale(1) rotate(45deg)}}
-.shoot{position:absolute;top:12%;left:-200px;width:140px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(150,130,190,.45));opacity:0;transform:rotate(18deg);animation:shoot 18s ease-in infinite}
-.shoot.s2{top:40%;animation-delay:9s;animation-duration:22s}
-.shoot.s3{top:66%;animation-delay:4s;animation-duration:25s}
-@keyframes shoot{0%{transform:translate(0,0) rotate(18deg);opacity:0}2%{opacity:.6}9%{opacity:0}10%,100%{transform:translate(1500px,480px) rotate(18deg);opacity:0}}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5) rotate(0)}50%{opacity:.85;transform:scale(1) rotate(45deg)}}
 
-/* ===== Каркас ===== */
-.wrap{width:min(820px,92vw);margin:auto;position:relative;z-index:1;padding-bottom:20px}
-header{display:flex;align-items:center;justify-content:center;gap:16px;padding:26px 0 8px}
+.shoot{position:absolute;top:12%;left:-200px;width:140px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85));opacity:0;transform:rotate(18deg);animation:shoot 16s ease-in infinite}
+.shoot.s2{top:38%;animation-delay:8s;animation-duration:19s;background:linear-gradient(90deg,transparent,rgba(73,231,255,.85))}
+.shoot.s3{top:64%;animation-delay:4s;animation-duration:22s;background:linear-gradient(90deg,transparent,rgba(255,16,183,.85))}
+@keyframes shoot{0%{transform:translate(0,0) rotate(18deg);opacity:0}2%{opacity:.9}9%{opacity:0}10%,100%{transform:translate(1500px,480px) rotate(18deg);opacity:0}}
+
+/* ===== Контент ===== */
+.wrap{width:min(1180px,92vw);margin:auto;position:relative;z-index:1}
+header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:26px 0}
 .brand{display:flex;align-items:center;gap:14px;font-weight:1000;letter-spacing:.5px}
-.brand img{width:78px;height:78px;object-fit:contain;animation:imgShimmer 7s ease-in-out infinite}
-@keyframes imgShimmer{0%,100%{filter:grayscale(1) brightness(.55) drop-shadow(0 0 6px rgba(140,140,150,.18))}50%{filter:grayscale(1) brightness(.95) drop-shadow(0 0 14px rgba(170,170,185,.32))}}
-.brand span{font-size:clamp(30px,5vw,54px);background:linear-gradient(100deg,#2a2a30,#5a5a64 25%,#b9b9c4 50%,#5a5a64 75%,#2a2a30);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:textShimmer 9s ease-in-out infinite alternate,textGlow 6s ease-in-out infinite}
-@keyframes textShimmer{0%{background-position:0% 0}100%{background-position:100% 0}}
-@keyframes textGlow{0%,100%{filter:drop-shadow(0 0 4px rgba(150,150,160,.12))}50%{filter:drop-shadow(0 0 11px rgba(170,170,185,.28))}}
-
-/* слово MultPlay: светло-красный ⇄ тёмно-красный */
-.mp{display:inline-block;padding:0 .08em .16em;margin:0 -.08em -.16em;line-height:1.1;background:linear-gradient(100deg,#2e0306,#6e0a12 30%,#b01a26 50%,#6e0a12 70%,#2e0306);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:mpFlow 5s ease-in-out infinite alternate}
-@keyframes mpFlow{0%{background-position:0% 0}100%{background-position:100% 0}}
-
-/* осколки кнопки отправки */
-.shard{position:fixed;z-index:150;pointer-events:none;border-radius:50%;background:linear-gradient(135deg,#6b3bb0,#4a2380);color:#fff;display:grid;place-items:center;box-shadow:0 0 18px rgba(120,70,200,.6);animation:shatter 3s cubic-bezier(.4,0,.6,1) forwards}
-.shard svg{width:24px;height:24px;fill:currentColor}
-@keyframes shatter{
-  0%{transform:none;opacity:1;filter:brightness(1.4)}
-  25%{transform:translate(calc(var(--tx)*.07),calc(var(--ty)*.07)) rotate(calc(var(--rot)*.06));opacity:1;filter:brightness(1)}
-  100%{transform:translate(var(--tx),var(--ty)) rotate(var(--rot));opacity:0}
-}
-
-.view[hidden]{display:none}
-.view{animation:fadeIn .35s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-.hero{text-align:center;padding:26px 0 30px}
-h1{font-size:clamp(30px,5.2vw,52px);line-height:1.08;margin:0 0 18px;font-weight:1000;background:linear-gradient(90deg,#fff,#cdbfe6 45%,#8a62d0);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{font-size:clamp(16px,2vw,20px);line-height:1.6;color:var(--muted);max-width:700px;margin:0 auto}
-
-/* ===== Кнопки-карточки (как на старом сайте) ===== */
-.links{display:grid;grid-template-columns:1fr;gap:20px;max-width:760px;margin:0 auto 40px}
-.link-card{display:block;width:100%;padding:0;font:inherit;text-align:left;cursor:pointer;text-decoration:none;color:var(--text);position:relative;overflow:hidden;border-radius:30px;border:1px solid var(--line);background:var(--panel);box-shadow:0 18px 45px rgba(0,0,0,.5),0 0 28px rgba(0,0,0,.95),0 0 2px rgba(120,120,135,.3);transition:.22s;--b1:#050507;--b2:#3b3b44;--b3:#7a7a86}
-.link-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 36px rgba(0,0,0,1),0 0 6px rgba(140,140,155,.35)}
-.link-card img{width:100%;aspect-ratio:38/17;height:auto;object-fit:cover;object-position:center;display:block;background:#0d0418}
-.link-card:after,.where:after,.confirm:after{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;background:linear-gradient(110deg,var(--b1),var(--b2),var(--b3),var(--b2),var(--b1));background-size:300% 100%;animation:borderFlow 6s ease-in-out infinite alternate;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude;pointer-events:none;z-index:2}
-/* тёмно-розовая кнопка */
-.link-card.pink{--b1:#3d0a24;--b2:#7a1d4c;--b3:#a8316b;border-color:rgba(130,30,80,.55);background:rgba(34,6,22,.78);box-shadow:0 18px 45px rgba(0,0,0,.5),0 0 28px rgba(150,30,90,.3),0 0 8px rgba(170,40,105,.25);animation:pinkPulse 5s ease-in-out infinite}
-.link-card.pink:hover{box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 40px rgba(170,40,105,.4),0 0 10px rgba(190,60,120,.35)}
-.link-card.pink .go{color:#d46a9f}
-@keyframes pinkPulse{0%,100%{box-shadow:0 18px 45px rgba(0,0,0,.5),0 0 22px rgba(130,25,78,.24),0 0 6px rgba(150,30,90,.2)}50%{box-shadow:0 18px 45px rgba(0,0,0,.5),0 0 36px rgba(175,45,110,.38),0 0 10px rgba(190,60,125,.3)}}
-@keyframes borderFlow{0%{background-position:0% 0}100%{background-position:100% 0}}
-.link-text{display:block;position:relative;padding:15px 56px 17px 20px;z-index:3}
+.brand img{width:78px;height:78px;object-fit:contain;filter:drop-shadow(0 0 22px rgba(255,16,183,.7))}
+.brand span{font-size:clamp(30px,5vw,58px);text-shadow:0 0 26px rgba(255,16,183,.75)}
+.badge{padding:11px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.08);color:var(--muted);backdrop-filter:blur(10px);font-weight:800}
+.hero{display:grid;grid-template-columns:1fr .92fr;gap:34px;align-items:center;padding:28px 0 52px}
+h1{font-size:clamp(44px,7vw,92px);line-height:.9;margin:0 0 18px;font-weight:1000}
+.grad{background:linear-gradient(90deg,#fff,#ffd0f4 35%,var(--pink) 70%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(17px,2vw,23px);line-height:1.55;color:var(--muted);max-width:670px;margin:0 0 25px}
+.hero-art{position:relative;border-radius:38px;padding:14px;background:linear-gradient(135deg,rgba(255,16,183,.55),rgba(73,231,255,.24));box-shadow:0 35px 90px rgba(0,0,0,.48),0 0 80px rgba(255,16,183,.22)}
+.hero-art img{width:100%;display:block;border-radius:28px}
+.hero-art:after{content:"";position:absolute;right:-28px;top:-28px;width:135px;height:135px;border-radius:50%;background:radial-gradient(circle,#ffb4ed,var(--pink) 45%,transparent 70%);filter:blur(2px);opacity:.78;pointer-events:none}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.cta{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:1000;padding:16px 20px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(255,16,183,.95),rgba(141,60,255,.88));box-shadow:0 16px 40px rgba(255,16,183,.22)}
+.cta.secondary{background:rgba(255,255,255,.08)}
+.section{margin:0 0 54px}
+.section h2{font-size:clamp(28px,4vw,44px);margin:0 0 10px}
+.section p{margin:0 0 22px;color:var(--muted);font-size:18px}
+.links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.link-card{min-height:245px;text-decoration:none;color:var(--text);position:relative;overflow:hidden;border-radius:30px;border:1px solid var(--line);background:var(--panel);box-shadow:0 18px 45px rgba(0,0,0,.28);transition:.22s}
+.link-card:hover{transform:translateY(-6px);border-color:rgba(255,16,183,.7);box-shadow:0 24px 60px rgba(255,16,183,.18)}
+/* Пропорция картинок 38:17 (760×340) — одинаково на ПК и телефоне */
+.link-card img{width:100%;aspect-ratio:38/17;height:auto;object-fit:cover;object-position:center;display:block;background:#12001e}
+.link-card:before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,0,16,.92),transparent 58%);pointer-events:none}
+.link-text{position:absolute;left:18px;right:54px;bottom:17px;z-index:1}
 .link-text b{display:block;font-size:22px;margin-bottom:4px}
 .link-text small{display:block;color:var(--muted);font-weight:700}
-.go{position:absolute;right:20px;bottom:18px;color:#a690d6;font-size:25px;font-weight:1000;z-index:3}
+.go{position:absolute;right:18px;bottom:21px;color:var(--cyan);font-size:25px;font-weight:1000;z-index:1}
+.shop{padding:28px;border-radius:36px;background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,16,183,.12));border:1px solid var(--line);box-shadow:0 25px 70px rgba(0,0,0,.25)}
+.shop p{line-height:1.55}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:6px}
+.product{text-decoration:none;color:var(--text);border-radius:28px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.08);transition:.22s;display:block;box-shadow:0 0 28px rgba(255,42,42,.45)}
+.product:hover{transform:translateY(-5px);box-shadow:0 0 44px rgba(255,42,42,.7)}
+/* Пропорция картинок 55:19 (1100×380) — одинаково на ПК и телефоне */
+.product img{width:100%;aspect-ratio:55/19;height:auto;object-fit:cover;object-position:center;display:block;background:#140021}
+.product span{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:18px}
+.product b{font-size:22px}
+.product em{font-style:normal;color:var(--cyan);font-weight:1000}
 
-/* ===== Страница сообщения ===== */
-.topbar{display:flex;align-items:center;padding:10px 0 16px}
-.back{display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--text);font:inherit;font-weight:900;padding:11px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.06);backdrop-filter:blur(10px);transition:.2s}
-.back:hover{background:rgba(255,255,255,.12)}
+/* ===== Донат ===== */
+.donate-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.donate{display:block;text-decoration:none;color:var(--text);border-radius:28px;overflow:hidden;border:1px solid var(--line);background:var(--panel);box-shadow:0 18px 45px rgba(0,0,0,.28);transition:.22s}
+.donate:hover{transform:translateY(-5px);border-color:rgba(73,231,255,.65)}
+/* Пропорция картинок 38:17 (760×340) */
+.donate img{width:100%;aspect-ratio:38/17;height:auto;object-fit:cover;object-position:center;display:block;background:#140021}
+.donate-body{padding:18px 22px 22px}
+.donate b{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:22px;margin-bottom:8px}
+.donate b i{font-style:normal;color:var(--cyan);font-size:25px}
+.donate small{display:block;color:var(--muted);font-weight:700;line-height:1.5;font-size:15px}
 
-.where{display:block;width:100%;padding:0;font:inherit;color:var(--text);text-align:left;cursor:pointer;position:relative;overflow:hidden;border-radius:28px;border:1px solid rgba(10,70,150,.5);background:#0d0418;--b1:#00122e;--b2:#0b3d82;--b3:#1d74d6;box-shadow:0 0 34px rgba(0,140,255,.28),0 0 10px rgba(40,150,255,.22),0 14px 40px rgba(0,0,0,.5);animation:bluePulse 4s ease-in-out infinite;transition:transform .2s}
-.where:hover{transform:translateY(-3px)}
-@keyframes bluePulse{0%,100%{box-shadow:0 0 26px rgba(0,130,255,.22),0 0 8px rgba(40,150,255,.18),0 14px 40px rgba(0,0,0,.5)}50%{box-shadow:0 0 44px rgba(0,145,255,.4),0 0 14px rgba(60,165,255,.3),0 14px 40px rgba(0,0,0,.5)}}
-.where img{width:100%;aspect-ratio:1100/250;height:auto;object-fit:cover;display:block}
-.where b{display:block;position:relative;padding:14px 56px 16px 20px;font-size:21px;z-index:3;text-shadow:0 0 14px rgba(40,150,255,.55)}
-.where i{position:absolute;right:20px;bottom:15px;font-style:normal;color:#5cb6ff;font-size:22px;z-index:3;transition:transform .25s}
-.where[aria-expanded="true"] i{transform:rotate(180deg)}
+footer{text-align:center;color:var(--muted);padding:30px 0 42px;position:relative;z-index:1}
 
-.info{overflow:hidden;max-height:0;opacity:0;transition:max-height .4s ease,opacity .3s ease,margin .3s}
-.info.open{max-height:700px;opacity:1;margin-top:14px}
-.info-in{padding:20px 22px;border-radius:22px;border:1px solid rgba(30,90,170,.4);background:rgba(2,12,30,.72);color:#d4e8ff;line-height:1.6;white-space:pre-line;font-size:16px}
+@media(max-width:920px){.hero{grid-template-columns:1fr}.links{grid-template-columns:1fr 1fr}.donate-list{grid-template-columns:1fr 1fr}.orb{filter:blur(55px)}}
+@media(max-width:620px){header{align-items:flex-start;flex-direction:column}.badge{font-size:14px}.links,.products,.donate-list{grid-template-columns:1fr}.orb.o1{width:280px;height:280px}.orb.o2{width:240px;height:240px}.orb.o3{width:320px;height:320px}.orb.o4,.orb.o5{display:none}}
 
-/* ===== Окно сообщения в стиле Telegram (Android) ===== */
-.tg{margin-top:22px;border-radius:26px;border:1px solid var(--line);background:rgba(12,5,22,.86);box-shadow:0 20px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden}
-.tg-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:rgba(40,16,72,.5);border-bottom:1px solid var(--line);font-weight:900}
-.icon-btn{width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.07);color:var(--text);font-size:20px;cursor:pointer;display:grid;place-items:center;transition:.2s}
-.icon-btn:hover{background:rgba(255,255,255,.16)}
-.sec{padding:12px 18px 14px;border-left:3px solid var(--purple2);position:relative}
-.sec+.sec{border-top:1px dashed rgba(255,255,255,.14)}
-.sec label{display:block;font-size:12px;letter-spacing:.5px;color:var(--muted);margin-bottom:4px;font-weight:800}
-.sec input,.sec textarea{width:100%;background:transparent;border:0;outline:0;color:var(--text);font:inherit;font-size:17px}
-.sec input::placeholder,.sec textarea::placeholder{color:#6f6285}
-.sec.msg{display:flex;flex-direction:column}
-.sec textarea{resize:none;min-height:150px;max-height:55vh;line-height:1.5;overflow-y:auto}
-.previews{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 10px}
-.previews:empty{display:none}
-.pv{position:relative;width:84px;height:84px;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
-.pv img{width:100%;height:100%;object-fit:cover;display:block}
-.pv button{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.7);color:#fff;cursor:pointer;font-size:12px;line-height:1}
-.pv small{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:10px;background:rgba(0,0,0,.6);padding:2px}
-.bar{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
-.send{width:54px;height:54px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,#6b3bb0,#4a2380);color:#fff;display:grid;place-items:center;box-shadow:0 8px 22px rgba(74,35,128,.5);transition:.2s}
-.send:hover{transform:scale(1.07)}
-.send svg,.icon-btn svg{width:24px;height:24px;fill:currentColor}
-.tg.fs{position:fixed;inset:0;z-index:60;margin:0;border-radius:0;background:#06020e}
-.tg.fs .sec.msg{flex:1;min-height:0}
-.tg.fs textarea{flex:1;max-height:none}
-
-.done{margin-top:22px;padding:34px 24px;text-align:center;border-radius:26px;border:1px solid rgba(120,80,190,.35);background:rgba(20,8,36,.8);font-size:20px;font-weight:800;line-height:1.5;box-shadow:0 0 40px rgba(90,40,160,.2)}
-.done .big{font-size:46px;display:block;margin-bottom:10px}
-
-/* ===== Подтверждение ===== */
-.overlay{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:rgba(0,0,0,.68);backdrop-filter:blur(6px)}
-.overlay[hidden]{display:none}
-.confirm{position:relative;width:min(380px,90vw);padding:14px;border-radius:28px;background:rgba(36,5,9,.9);border:1px solid rgba(110,10,10,.5);--b1:#2a0505;--b2:#6b0f0f;--b3:#a31a1a;box-shadow:0 0 50px rgba(255,30,30,.26),0 0 14px rgba(255,40,40,.22);animation:redPulse 3.5s ease-in-out infinite}
-@keyframes redPulse{0%,100%{box-shadow:0 0 36px rgba(255,30,30,.2),0 0 10px rgba(255,40,40,.16)}50%{box-shadow:0 0 58px rgba(255,35,35,.36),0 0 16px rgba(255,50,50,.28)}}
-.opt{display:block;width:100%;padding:19px;border:0;border-radius:18px;background:rgba(255,255,255,.09);color:#fff;font:inherit;font-weight:900;font-size:19px;cursor:pointer;transition:.2s}
-.opt:hover{background:rgba(255,255,255,.16)}
-.opt+.opt{margin-top:10px}
-.opt:disabled{opacity:.6;cursor:default}
-
-.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);z-index:200;max-width:min(520px,92vw);padding:15px 20px;border-radius:18px;background:rgba(30,8,20,.96);border:1px solid rgba(190,60,90,.5);color:#ffe6ee;font-weight:800;text-align:center;opacity:0;pointer-events:none;transition:.3s;box-shadow:0 12px 40px rgba(0,0,0,.6)}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-
-/* ===== Подвал ===== */
-footer{text-align:center;padding:30px 0 42px;position:relative;z-index:1;font-weight:700}
-footer span{display:inline-block;background:linear-gradient(90deg,#c9c9d2,#17171c,#c9c9d2);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:footFlow 14s ease-in-out infinite alternate;filter:drop-shadow(0 0 6px rgba(0,0,0,.95))}
-@keyframes footFlow{0%{background-position:0% 0}100%{background-position:100% 0}}
-
-@media(max-width:620px){.orb.o4,.orb.o5{display:none}.brand img{width:60px;height:60px}.link-text b{font-size:19px}.where b{font-size:17px}}
-@media(prefers-reduced-motion:reduce){body:before,.orb,.spark,.bubble,.twinkle,.shoot,.brand img,.brand span,footer span,.where,.confirm,.link-card:after,.where:after,.confirm:after{animation:none!important}.spark,.bubble,.twinkle,.shoot{display:none}}
+/* Если у человека включено «уменьшить движение» — анимации отключаются */
+@media(prefers-reduced-motion:reduce){body:before,.orb,.spark,.bubble,.twinkle,.shoot{animation:none!important}.spark,.bubble,.twinkle,.shoot{display:none}}
 </style>
 </head>
 <body>
 
+<!-- Анимированный фон -->
 <div class="bg" aria-hidden="true">
   <i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="orb o4"></i><i class="orb o5"></i>
   <i class="shoot"></i><i class="shoot s2"></i><i class="shoot s3"></i>
@@ -170,243 +117,162 @@ footer span{display:inline-block;background:linear-gradient(90deg,#c9c9d2,#17171
 
 <header>
   <div class="brand">
-    <!-- КАРТИНКА: логотип -> images/logo.png (PNG с прозрачным фоном, ~300×300) -->
-    <img src="images/logo.png" alt="" onerror="this.style.display='none'">
-    <span>My Little Wild</span>
+    <!-- КАРТИНКА: логотип (PNG/WebP с прозрачным фоном, ~300×300 px) -->
+    <img src="images/logo.png" alt="Wild MLP logo">
+    <span>Wild MLP</span>
   </div>
+  <div class="badge">Дружба • арты • мемы • стримы</div>
 </header>
 
-<!-- ================= ГЛАВНАЯ ================= -->
-<div id="home" class="view">
-  <section class="hero">
-    <h1>Есть что высказаться<br>о "<span class="mp">MultPlay</span>"?<br>Тогда тебе к нам!</h1>
-    <p class="lead">Пиши, что твоей душе угодно! Пиши, о чём хочешь все сообщения анонимны, никто о них не узнает. Ну, кроме Вайлда, конечно, вы же мне тута писать собрались! Давайте, расскажите, что у вас случилось, а я вас виртуально обньиму!</p>
+<main class="hero">
+  <section>
+    <h1><span class="grad">Поне‑движ</span><br>в одном месте</h1>
+    <p class="lead">Красивый хаб для сообщества Wild MLP: Telegram, Discord, TikTok, VK, Steam, Twitch и поддержка проекта.</p>
+    <div class="cta-row">
+      <a class="cta" href="https://t.me/WildMLP" target="_blank" rel="noopener">Войти в Telegram ↗</a>
+      <a class="cta secondary" href="https://discord.gg/yj39bvxWJD" target="_blank" rel="noopener">Войти в Discord ↗</a>
+    </div>
   </section>
+  <section class="hero-art">
+    <!-- КАРТИНКА: главный арт справа (~1000×1000 px). Если файла нет — блок сам скрывается -->
+    <img src="images/hero.png" alt="" onerror="this.closest('.hero-art').style.display='none';this.closest('.hero').style.gridTemplateColumns='1fr'">
+  </section>
+</main>
 
+<section class="section">
+  <h2>Ссылки сообщества</h2>
+  <p>Каждая площадка получила свою картинку по настроению.</p>
   <div class="links">
-    <button class="link-card" id="openWrite" type="button">
-      <!-- КАРТИНКА: images/write.jpg (760×340) -->
-      <img src="images/write.jpg" alt="">
-      <span class="link-text"><b>Написать анонимное сообщение</b></span><span class="go">→</span>
-    </button>
 
-    <a class="link-card" href="https://t.me/AnonWildBot" target="_blank" rel="noopener">
-      <!-- КАРТИНКА: images/telegram.jpg (760×340) -->
-      <img src="images/telegram.jpg" alt="">
-      <span class="link-text"><b>Написать анонимное сообщение в телеграм</b></span><span class="go">↗</span>
+    <a class="link-card" href="https://t.me/WildMLP" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: Телеграм (760×340 px) -->
+      <img src="images/telegram.jpg" alt="Телеграм">
+      <span class="link-text"><b>Телеграм</b><small>Главная стая Wild MLP</small></span><span class="go">↗</span>
     </a>
 
-    <a class="link-card pink" href="https://wild4913.github.io/WildMLP/" target="_blank" rel="noopener">
-      <!-- КАРТИНКА: images/site.jpg (760×340) -->
-      <img src="images/site.jpg" alt="">
-      <span class="link-text"><b>Мой основной сайт</b><small>тута ссылки на все мои ресурсы!</small></span><span class="go">↗</span>
+    <a class="link-card" href="https://discord.gg/yj39bvxWJD" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: Дискорд (760×340 px) -->
+      <img src="images/discord.jpg" alt="Дискорд">
+      <span class="link-text"><b>Дискорд</b><small>Голос, общение и движ</small></span><span class="go">↗</span>
     </a>
+
+    <a class="link-card" href="https://www.tiktok.com/@wildmlp4913" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: ТикТок (760×340 px) -->
+      <img src="images/tiktok.jpg" alt="ТикТок">
+      <span class="link-text"><b>ТикТок</b><small>Короткие видео и мемы</small></span><span class="go">↗</span>
+    </a>
+
+    <a class="link-card" href="https://www.twitch.tv/wildmlp" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: Твич (760×340 px) -->
+      <img src="images/twitch.jpg" alt="Твич">
+      <span class="link-text"><b>Твич</b><small>Стримы и живой контент</small></span><span class="go">↗</span>
+    </a>
+
+    <a class="link-card" href="https://youtube.com/@my_little_wild?si=uSazLRRcwVCp8_aP" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: Ютуб (760×340 px) -->
+      <img src="images/youtube.jpg" alt="Ютуб">
+      <span class="link-text"><b>Ютуб</b><small>Видео и ролики Wild MLP</small></span><span class="go">↗</span>
+    </a>
+
+    <a class="link-card" href="https://derpibooru.org/profiles/Wild4913" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: Дерпибуру (760×340 px) -->
+      <img src="images/derpibooru.jpg" alt="Дерпибуру">
+      <span class="link-text"><b>Дерпибуру</b><small>Арты и картинки</small></span><span class="go">↗</span>
+    </a>
+
   </div>
-</div>
+</section>
 
-<!-- ================= СТРАНИЦА СООБЩЕНИЯ ================= -->
-<div id="write" class="view" hidden>
-  <div class="topbar"><button class="back" id="back" type="button">← Назад</button></div>
+<section class="section shop">
+  <h2>Поддержать проект</h2>
+  <p>Проходки, префиксы и донат — через Tribute.</p>
+  <p>Все измерения ограничены 10 000 блоков в каждую сторону. По правилам запрещено оскорблять других, гриферить, использовать читы, провоцировать игроков и использовать экстремистскую символику.</p>
+  <p>Сервер платный! Есть два вида проходок: проходка до конца работы сервера – за 100 рублей; бесплатная проходка, которую получают медийные личности, те, кто мне помогал, и те, кто активен в моих чатах, дополнительная информация в тг и дс.</p>
+  <div class="products">
 
-  <button class="where" id="whereBtn" type="button" aria-expanded="false">
-    <!-- КАРТИНКА: images/where.jpg (1100×250) -->
-    <img src="images/where.jpg" alt="">
-    <b>Куда попадёт ваше сообщение</b><i>▾</i>
-  </button>
-  <div class="info" id="info"><div class="info-in">Отправляя сообщение здесь, я не узнаю, кто именно написал, и не смогу ответить. Если у вас что-то важное и вы ждёте ответ, оставьте свои контакты в тексте, и я с вами свяжусь.
-Пожалуйста, не присылайте личные данные.
-Лимит: до 3 сообщений в день, в одном сообщении не более 50 000 букв (можно прикрепить до 3 фото форматом "jpeg/png/webp" общим весом до 10 МБ). Люблю 💜</div></div>
+    <a class="product" href="https://t.me/tribute/app?startapp=pxsT" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: Проходка 100 ₽ (1100×380 px) -->
+      <img src="images/pass.jpg" alt="Проходка">
+      <span><b>Проходка</b><em>100 ₽</em></span>
+    </a>
 
-  <section class="tg" id="tg">
-    <div class="tg-top">
-      <span>Новое сообщение</span>
-      <button class="icon-btn" id="expand" type="button" title="На весь экран" aria-label="На весь экран">⤢</button>
-    </div>
-    <div class="sec">
-      <label for="nick">Ваш ник</label>
-      <input id="nick" type="text" placeholder="Аноним" autocomplete="off" maxlength="64">
-    </div>
-    <div class="sec msg">
-      <label for="msg">Сообщение</label>
-      <div class="previews" id="previews"></div>
-      <textarea id="msg" placeholder="Сообщение"></textarea>
-      <div class="bar">
-        <button class="icon-btn" id="attach" type="button" title="Прикрепить фото" aria-label="Прикрепить фото">
-          <svg viewBox="0 0 24 24"><path d="M16.5 6.5v9.2a4.5 4.5 0 0 1-9 0V5.8a3 3 0 0 1 6 0v9.4a1.5 1.5 0 0 1-3 0V6.5H9.5v8.7a3 3 0 0 0 6 0V5.8a4.5 4.5 0 0 0-9 0v9.9a6 6 0 0 0 12 0V6.5z"/></svg>
-        </button>
-        <button class="send" id="sendBtn" type="button" title="Отправить" aria-label="Отправить">
-          <svg viewBox="0 0 24 24"><path d="M2.5 21.5 23 12 2.5 2.5l.01 7.4L17 12 2.51 14.1z"/></svg>
-        </button>
+    <a class="product" href="https://t.me/tribute/app?startapp=pxt7" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: Префикс (1100×380 px) -->
+      <img src="images/prefix.jpg" alt="Префикс">
+      <span><b>Префикс</b><em>200 ₽</em></span>
+    </a>
+
+  </div>
+</section>
+
+<section class="section">
+  <h2>Донат</h2>
+  <p>Выберите удобный способ поддержки.</p>
+  <div class="donate-list">
+
+    <a class="donate" href="https://www.donationalerts.com/r/wildmlp" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: DonationAlerts (760×340 px) -->
+      <img src="images/donationalerts.jpg" alt="DonationAlerts">
+      <div class="donate-body">
+        <b>DonationAlerts <i>↗</i></b>
+        <small>Комиссия 12% для всех видов карт</small>
       </div>
-      <input id="file" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
-    </div>
-  </section>
+    </a>
 
-  <div class="done" id="done" hidden><span class="big">💜</span>Сообщение доставлено! Вайлдик обнимает и в скором времени примется читать вашу историю</div>
-</div>
+    <a class="donate" href="https://t.me/tribute/app?startapp=dK6K" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: Tribute (760×340 px) -->
+      <img src="images/tribute.jpg" alt="Tribute">
+      <div class="donate-body">
+        <b>Tribute <i>↗</i></b>
+        <small>Комиссия 10% и через Телеграм</small>
+      </div>
+    </a>
 
-</div>
+    <a class="donate" href="https://donatepay.ru/don/My_Little_Wild" target="_blank" rel="noopener">
+      <!-- КАРТИНКА: DonatePay (760×340 px) -->
+      <img src="images/donatepay.jpg" alt="DonatePay">
+      <div class="donate-body">
+        <b>DonatePay <i>↗</i></b>
+        <small>Комиссия 9% для РФ, 17% для западных карт</small>
+      </div>
+    </a>
 
-<footer><span>© My Little Wild — дружба это магия</span></footer>
-
-<!-- Подтверждение -->
-<div class="overlay" id="overlay" hidden>
-  <div class="confirm">
-    <button class="opt" id="yes" type="button">Точно отправить?</button>
-    <button class="opt" id="no" type="button">Ещё допишу</button>
   </div>
+</section>
+
 </div>
 
-<div class="toast" id="toast"></div>
+<footer>© Wild MLP — дружба это магия</footer>
 
 <script>
+/* Лёгкие фоновые частицы: искорки, пузырьки и мерцающие звёздочки */
 (function(){
-  /* ---------- фоновые частицы (тёмные) ---------- */
-  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    var fx=document.getElementById('fx'),small=innerWidth<620;
-    var colors=['#4b2a7a','#6a3ba8','#3a3a48','#5a4a80'];
-    var sparks=small?16:28,stars=small?10:18,bubbles=small?4:7;
-    function r(a,b){return a+Math.random()*(b-a)}
-    for(var i=0;i<sparks;i++){var s=document.createElement('i'),z=r(2,4),c=colors[Math.floor(r(0,colors.length))];s.className='spark';s.style.cssText='left:'+r(0,100)+'%;width:'+z+'px;height:'+z+'px;background:'+c+';box-shadow:0 0 '+(z*2)+'px '+c+';--dx:'+r(-60,60)+'px;animation-duration:'+r(14,28)+'s;animation-delay:-'+r(0,28)+'s';fx.appendChild(s)}
-    for(var k=0;k<bubbles;k++){var b=document.createElement('i'),bs=r(18,44);b.className='bubble';b.style.cssText='left:'+r(0,100)+'%;width:'+bs+'px;height:'+bs+'px;--dx:'+r(-80,80)+'px;animation-duration:'+r(26,44)+'s;animation-delay:-'+r(0,40)+'s';fx.appendChild(b)}
-    for(var j=0;j<stars;j++){var t=document.createElement('i');t.className='twinkle';t.style.cssText='left:'+r(2,98)+'%;top:'+r(2,92)+'%;animation-duration:'+r(5,10)+'s;animation-delay:-'+r(0,10)+'s';fx.appendChild(t)}
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var fx=document.getElementById('fx');
+  var small=window.innerWidth<620;
+  var colors=['#ff10b7','#49e7ff','#ffffff','#8d3cff'];
+  var sparks=small?18:32, stars=small?12:22, bubbles=small?4:8;
+  function r(a,b){return a+Math.random()*(b-a)}
+  for(var i=0;i<sparks;i++){
+    var s=document.createElement('i');
+    var size=r(2,5), c=colors[Math.floor(r(0,colors.length))];
+    s.className='spark';
+    s.style.cssText='left:'+r(0,100)+'%;width:'+size+'px;height:'+size+'px;background:'+c+';box-shadow:0 0 '+(size*3)+'px '+c+';--dx:'+r(-60,60)+'px;animation-duration:'+r(13,26)+'s;animation-delay:-'+r(0,26)+'s';
+    fx.appendChild(s);
   }
-
-  /* ---------- утилиты ---------- */
-  var $=function(id){return document.getElementById(id)};
-  var toastEl=$('toast'),toastT;
-  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('show')},4200)}
-  var MAX_TEXT=50000,MAX_FILES=3,MAX_BYTES=10*1024*1024,OK=['image/jpeg','image/png','image/webp'];
-
-  /* ---------- навигация ---------- */
-  var home=$('home'),write=$('write'),cameFromHome=false;
-  function render(){
-    var w=location.hash==='#write';
-    home.hidden=w;write.hidden=!w;
-    if(!w)setFs(false);
-    scrollTo(0,0);
+  for(var k=0;k<bubbles;k++){
+    var b=document.createElement('i');
+    var bs=r(18,46);
+    b.className='bubble';
+    b.style.cssText='left:'+r(0,100)+'%;width:'+bs+'px;height:'+bs+'px;--dx:'+r(-80,80)+'px;animation-duration:'+r(24,42)+'s;animation-delay:-'+r(0,40)+'s';
+    fx.appendChild(b);
   }
-  addEventListener('hashchange',render);
-  $('openWrite').onclick=function(){cameFromHome=true;location.hash='write'};
-  $('back').onclick=function(){if(cameFromHome){history.back()}else{location.hash=''}};
-
-  /* ---------- «Куда попадёт сообщение» ---------- */
-  var wb=$('whereBtn'),info=$('info');
-  wb.onclick=function(){var o=info.classList.toggle('open');wb.setAttribute('aria-expanded',o)};
-
-  /* ---------- поля ---------- */
-  var msg=$('msg'),nick=$('nick'),tg=$('tg'),files=[];
-  function autosize(){if(tg.classList.contains('fs')){msg.style.height='';return}msg.style.height='auto';msg.style.height=Math.min(msg.scrollHeight,innerHeight*.55)+'px'}
-  var warned=false;
-  msg.addEventListener('input',function(){
-    autosize();
-    if(msg.value.length>MAX_TEXT){if(!warned){toast('Воу-воу, давай сообщение поменьше, в меня столько не влезет!');warned=true}}else warned=false;
-  });
-
-  /* ---------- на весь экран ---------- */
-  function setFs(on){
-    tg.classList.toggle('fs',on);document.body.classList.toggle('lock',on);
-    var b=$('expand');b.textContent=on?'⤡':'⤢';b.title=on?'Свернуть':'На весь экран';autosize();
+  for(var j=0;j<stars;j++){
+    var t=document.createElement('i');
+    t.className='twinkle';
+    t.style.cssText='left:'+r(2,98)+'%;top:'+r(2,92)+'%;animation-duration:'+r(4,9)+'s;animation-delay:-'+r(0,9)+'s;transform:scale('+r(.6,1.1)+')';
+    fx.appendChild(t);
   }
-  $('expand').onclick=function(){setFs(!tg.classList.contains('fs'))};
-  addEventListener('keydown',function(e){if(e.key==='Escape'){if(!$('overlay').hidden)closeConfirm();else setFs(false)}});
-
-  /* ---------- фотографии ---------- */
-  var fileIn=$('file'),pv=$('previews');
-  $('attach').onclick=function(){fileIn.click()};
-  fileIn.onchange=function(){addFiles(Array.from(fileIn.files));fileIn.value=''};
-  msg.addEventListener('paste',function(e){var f=Array.from(e.clipboardData&&e.clipboardData.files||[]);if(f.length){e.preventDefault();addFiles(f)}});
-  tg.addEventListener('dragover',function(e){e.preventDefault()});
-  tg.addEventListener('drop',function(e){e.preventDefault();addFiles(Array.from(e.dataTransfer.files))});
-  function addFiles(list){
-    if(!list.length)return;
-    for(var i=0;i<list.length;i++){if(OK.indexOf(list[i].type)<0){toast('Неа! Здесь можно использовать только эти форматы "jpeg, png, webp"');return}}
-    if(files.length+list.length>MAX_FILES){toast('Тут тебе не фотосессия, больше 3 фоточек не получится(');return}
-    var total=files.concat(list).reduce(function(a,f){return a+f.size},0);
-    if(total>MAX_BYTES){toast('Охлади своё траханье, твои фоточки не могут весить более 10 мб!');return}
-    files=files.concat(list);drawPv();
-  }
-  function drawPv(){
-    pv.innerHTML='';
-    files.forEach(function(f,i){
-      var d=document.createElement('div');d.className='pv';
-      var im=document.createElement('img');im.src=URL.createObjectURL(f);
-      var x=document.createElement('button');x.type='button';x.textContent='✕';x.onclick=function(){files.splice(i,1);drawPv()};
-      var s=document.createElement('small');s.textContent=(f.size/1048576).toFixed(1)+' МБ';
-      d.appendChild(im);d.appendChild(x);d.appendChild(s);pv.appendChild(d);
-    });
-  }
-
-  /* ---------- отправка ---------- */
-  var overlay=$('overlay'),yes=$('yes'),no=$('no'),busy=false;
-  function closeConfirm(){if(busy)return;overlay.hidden=true}
-  $('sendBtn').onclick=function(){
-    if(!msg.value.trim()&&!files.length){toast('Сначала напиши что-нибудь 💜');return}
-    if(msg.value.length>MAX_TEXT){toast('Воу-воу, давай сообщение поменьше, в меня столько не влезет!');return}
-    if(sentToday()>=3){toast('На сегодня лимит — 3 сообщения. Приходи завтра 💜');return}
-    overlay.hidden=false;
-  };
-  no.onclick=closeConfirm;
-  overlay.addEventListener('click',function(e){if(e.target===overlay)closeConfirm()});
-  yes.onclick=async function(){
-    if(busy)return;busy=true;yes.disabled=no.disabled=true;yes.textContent='Отправляю…';var ok=false;
-    var fd=new FormData();
-    fd.append('nick',nick.value.trim()||'Аноним');
-    fd.append('text',msg.value);
-    files.forEach(function(f){fd.append('photos',f,f.name)});
-    try{
-      var res=await fetch('/api/send',{method:'POST',body:fd});
-      var data={};try{data=await res.json()}catch(e){}
-      if(!res.ok&&!data.error){toast('Сервер ответил '+res.status+': функция /api/send не найдена или упала');busy=false;yes.disabled=no.disabled=false;yes.textContent='Точно отправить?';overlay.hidden=true;return}
-      if(res.ok&&data.ok){
-        ok=true;
-      }else if(res.status===429){toast('На сегодня лимит — 3 сообщения. Приходи завтра 💜')}
-      else{toast('Не получилось отправить ('+(data.error||res.status)+(data.detail?': '+data.detail:'')+') — текст сохранён')}
-    }catch(e){toast('Нет связи с сервером, попробуй ещё раз — текст сохранён')}
-    busy=false;yes.disabled=no.disabled=false;yes.textContent='Точно отправить?';overlay.hidden=true;
-    if(ok){
-      sentToday(1);
-      crack($('sendBtn'),function(){
-        setFs(false);
-        tg.hidden=true;$('done').hidden=false;
-        msg.value='';nick.value='';files=[];drawPv();
-      });
-    }
-  };
-
-  /* ---------- локальный счётчик «3 в день» (запасной, если нет KV) ---------- */
-  function dayKey(){var d=new Date();return 'wild_sent_'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
-  function sentToday(add){
-    try{var n=parseInt(localStorage.getItem(dayKey())||'0',10);if(add){n+=add;localStorage.setItem(dayKey(),String(n))}return n}catch(e){return 0}
-  }
-
-  /* ---------- раскалывание кнопки «отправить» (3 сек) ---------- */
-  function crack(btn,done){
-    var rc=btn.getBoundingClientRect();
-    var polys=[
-      'polygon(0 0,60% 0,48% 46%,0 50%)',
-      'polygon(60% 0,100% 0,100% 50%,48% 46%)',
-      'polygon(48% 46%,100% 50%,100% 100%,55% 100%)',
-      'polygon(0 50%,48% 46%,55% 100%,0 100%)'
-    ];
-    var mv=[[-50,70,-35],[58,90,40],[32,130,25],[-38,140,-30]];
-    var shards=[];
-    polys.forEach(function(p,i){
-      var d=document.createElement('div');
-      d.className='shard';
-      d.style.cssText='left:'+rc.left+'px;top:'+rc.top+'px;width:'+rc.width+'px;height:'+rc.height+'px;clip-path:'+p+';-webkit-clip-path:'+p+';--tx:'+mv[i][0]+'px;--ty:'+mv[i][1]+'px;--rot:'+mv[i][2]+'deg';
-      d.innerHTML=btn.innerHTML;
-      document.body.appendChild(d);shards.push(d);
-    });
-    btn.style.visibility='hidden';
-    setTimeout(function(){
-      shards.forEach(function(s){s.remove()});
-      btn.style.visibility='';
-      done();
-    },3000);
-  }
-
-  render();
 })();
 </script>
 </body>
